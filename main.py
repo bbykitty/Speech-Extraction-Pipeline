@@ -2,7 +2,7 @@ from rosy_asr_utils import *
 from pathlib import Path
 import Google_VAD
 import Google_ASR
-import Google_BERT
+# import Google_BERT
 import openSMILE
 import segment
 import label
@@ -23,10 +23,10 @@ def read_ini(file_path):
 
 
 if __name__ == "__main__":
-    datadir, sesslist, client, labels, features = read_ini(r"C:\Users\bradf\OneDrive - Colostate\Research\Interruptions\Interruption-Detection\config.ini")
+    datadir, sesslist, client, labels, features = read_ini(r"config.ini")
     # Google_VAD.get_vad(sesslist)
-    # segment.segment_audio(sesslist)
+    segment.segment_audio(sesslist)
     # Google_ASR.get_asr(client, sesslist)
     # Google_BERT.get_BERT(sesslist)
     # openSMILE.get_opensmile(sesslist)
-    label.create_csv(sesslist, labels, features, acoustic=False)
+    # label.create_csv(sesslist, labels, features, acoustic=False)

@@ -1,7 +1,7 @@
 import subprocess
 import os
 import csv
-import ffmpeg
+# import ffmpeg
 
 def segment_audio(sesslist):
     '''
@@ -12,18 +12,18 @@ def segment_audio(sesslist):
     for sess in sesslist:
         group = os.path.basename(sess)
         print(f"Splitting {group}...")
-        audio_file = os.path.join(sess, group + ".wav")
-        output_folder = os.path.join(sess,"timestamp_segments")
+        audio_file = os.path.join(rf"c:\Users\bradf\OneDrive - Colostate\Research\Initial Observations for Fib Weights\Data\Segment Analysis",group, group + ".wav")
+        output_folder = os.path.join(rf"c:\Users\bradf\OneDrive - Colostate\Research\Initial Observations for Fib Weights\Data\Segment Analysis",group,"oracle_segments")
         if not os.path.isdir(output_folder):
             os.mkdir(output_folder)
-        timestamp_file = os.path.join(sess, group+"_Google.csv")
+        timestamp_file = os.path.join(sess, group+"_Oracle.csv")
         with open(timestamp_file) as timecsv:
-            csvreader = csv.reader(timecsv)
+            csvreader = csv.DictReader(timecsv)
             header = next(csvreader, None)
             utterance_num = 0
             for row in csvreader:
-                start = row[1]
-                stop = row[2]
+                start = row["Start"]
+                stop = row["End"]
                 output_wav = os.path.join(output_folder,f"{group}_{utterance_num}.wav")
                 utterance_num+=1
                 split_audio_command = ["ffmpeg", "-i", audio_file,"-ss", start, "-to", stop, "-c", "copy", output_wav]

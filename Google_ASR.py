@@ -23,9 +23,9 @@ def get_asr(client,sesslist):
         sesspath = sesspath.strip()
         sessname = os.path.basename(sesspath)
         wavfile = os.path.join(sesspath, f'{sessname}.wav')
-        asrDir = os.path.join(sesspath,'clean_google_asr')
+        asrDir = os.path.join(sesspath,'oracle_seg_google_asr')
         asrBlockDir = asrDir + '_reblocked' # segment-wise ASR will be concatenated to distinguish from ASR results run on entire block
-        asrFullFile = os.path.join(sesspath,"clean_google_asr.txt") # full session ASR results
+        asrFullFile = os.path.join(sesspath,"oracle_seg_google_asr.txt") # full session ASR results
         open(asrFullFile, 'w').close() # clear file before appending
         blkmapFile = os.path.join(sesspath,f'{sessname}.blk')
 
@@ -49,10 +49,10 @@ def get_asr(client,sesslist):
             print(f"ASR already existed. Backed the file up to {zipfile}") 
             os.remove(asrfile)
 
-        segDir = os.path.join(sesspath, 'timestamp_segments')
+        segDir = os.path.join(sesspath, 'oracle_segments')
         if os.path.exists(segDir):
             for segment in os.listdir(segDir):
-                seg_count = segment.split("utterance")[-1].split(".")[0]
+                seg_count = segment.split("_")[-1].split(".")[0]
                 segment = os.path.join(segDir,segment)
                 res = transcribe(client, segment)
                 # write segmentwise ASR result
